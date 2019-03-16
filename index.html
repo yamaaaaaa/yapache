@@ -54,10 +54,6 @@ document.getElementById('select').onclick = () => {
     }, (directories) => {
     	const {ipcRenderer} = require('electron');
 		ipcRenderer.send('select',directories[0]);
-		setTimeout(()=>{
-		  const {shell} = require('electron');
-		  shell.openExternal('http://localhost:8888');
-		},300);
     });
 };
 
