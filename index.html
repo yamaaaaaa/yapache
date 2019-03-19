@@ -28,7 +28,11 @@
 	p{
 		text-align: center;
 	}
+	#qrcode{
+		margin-top: 20px;
+	}
 	</style>
+	<script type="text/javascript" src="qrcode.min.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -36,15 +40,16 @@
 		<p>Please select DocumentRoot</p>
 		<button id="select">SELECT</button>
 		<button class="stop" id="stop">STOP</button>
+		<div id="qrcode"></div>
 	</div>
 </div>
 
 <script>
 	
 'use strict';
-var ipc = require('ipc');
 const remote = require('electron').remote;
 const Dialog = remote.dialog;
+const {ipcRenderer} = require('electron');
 
 document.getElementById('select').onclick = () => {
     Dialog.showOpenDialog(null, {
@@ -52,13 +57,16 @@ document.getElementById('select').onclick = () => {
         title: 'フォルダ(単独選択)',
         defaultPath: '.'
     }, (directories) => {
-    	const {ipcRenderer} = require('electron');
 		ipcRenderer.send('select',directories[0]);
     });
 };
 
+ipcRenderer.on('init-qr', (event, arg) => {
+	let url = 'http://192.168.0.17:8888/';
+	new QRCode(document.getElementById("qrcode"),url);
+});
+
 document.getElementById('stop').onclick = () => {
-	const {ipcRenderer} = require('electron');
 	ipcRenderer.send('stop',true);
 };
 
