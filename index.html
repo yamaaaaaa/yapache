@@ -4,6 +4,13 @@
 	<meta charset="UTF-8">
 	<title>yapache</title>
 	<style type="text/css">
+	body{
+		background: #fff6f6;
+	}
+	.img{
+		text-align: center;
+		margin-bottom: 20px;
+	}
 	button {
 		display: block;
 		width: 200px;
@@ -30,6 +37,10 @@
 	}
 	#qrcode{
 		margin-top: 20px;
+		width: 200px;
+	}
+	#qrcode img{
+		width: 100%;
 	}
 	</style>
 	<script type="text/javascript" src="qrcode.min.js"></script>
@@ -37,6 +48,9 @@
 <body>
 <div class="wrap">
 	<div>
+		<p class="img">
+			<img src="203-earth.png">
+		</p>
 		<p>Please select DocumentRoot</p>
 		<button id="select">SELECT</button>
 		<button class="stop" id="stop">STOP</button>
@@ -62,8 +76,8 @@ document.getElementById('select').onclick = () => {
 };
 
 ipcRenderer.on('init-qr', (event, arg) => {
-	let url = 'http://192.168.0.17:8888/';
-	new QRCode(document.getElementById("qrcode"),url);
+	let url = arg;
+	new QRCode(document.getElementById("qrcode",{}),url);
 });
 
 document.getElementById('stop').onclick = () => {
